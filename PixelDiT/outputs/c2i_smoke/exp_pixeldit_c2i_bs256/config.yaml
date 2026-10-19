@@ -1,0 +1,164 @@
+# lightning.pytorch==2.5.0.post0
+seed_everything: 1600
+torch_hub_dir: null
+huggingface_cache_dir: null
+auto_resume: true
+per_run_seed: false
+trainer:
+  accelerator: gpu
+  strategy: ddp
+  devices: '1'
+  num_nodes: 1
+  precision: bf16-mixed
+  logger: false
+  callbacks:
+  - class_path: src.utils.CheckpointHook
+    init_args:
+      dirpath: null
+      filename: null
+      monitor: null
+      verbose: false
+      save_last: true
+      save_top_k: -1
+      save_weights_only: false
+      mode: min
+      auto_insert_metric_name: true
+      every_n_train_steps: 10000
+      train_time_interval: null
+      every_n_epochs: null
+      save_on_train_epoch_end: null
+      enable_version_counter: true
+  - class_path: src.utils.SaveImagesHook
+    init_args:
+      save_dir: val_256_xl
+      save_compressed: true
+      predict_tag: predict
+  fast_dev_run: false
+  max_epochs: null
+  min_epochs: null
+  max_steps: 1600000
+  min_steps: null
+  max_time: null
+  limit_train_batches: null
+  limit_val_batches: null
+  limit_test_batches: null
+  limit_predict_batches: 1
+  overfit_batches: 0.0
+  val_check_interval: 100000
+  check_val_every_n_epoch: null
+  num_sanity_val_steps: 0
+  log_every_n_steps: 50
+  enable_checkpointing: null
+  enable_progress_bar: null
+  enable_model_summary: null
+  accumulate_grad_batches: 1
+  gradient_clip_val: 1.0
+  gradient_clip_algorithm: norm
+  deterministic: null
+  benchmark: null
+  inference_mode: true
+  use_distributed_sampler: false
+  profiler: null
+  detect_anomaly: false
+  barebones: false
+  plugins: null
+  sync_batchnorm: false
+  reload_dataloaders_every_n_epochs: 0
+  default_root_dir: ../outputs/c2i_smoke
+model:
+  num_classes: 1000
+  denoiser:
+    class_path: pixdit_core.pixeldit_c2i.PixDiT
+    init_args:
+      in_channels: 3
+      num_groups: 16
+      hidden_size: 1152
+      pixel_hidden_size: 16
+      patch_depth: 26
+      pixel_depth: 4
+      patch_size: 16
+      num_classes: 1000
+      use_pixel_abs_pos: true
+      pit_adaln_post_modulation: false
+  diffusion_trainer: null
+  diffusion_sampler:
+    class_path: src.diffusion.FlowDPMSolverSampler
+    init_args:
+      w_scheduler:
+        class_path: src.diffusion.LinearScheduler
+      timeshift: 1.0
+      guidance_interval_min: 0.1
+      guidance_interval_max: 0.9
+      step_fn: src.diffusion.ode_step_fn
+      last_step: null
+      last_step_fn: src.diffusion.ode_step_fn
+      scheduler:
+        class_path: src.diffusion.LinearScheduler
+      guidance_fn: src.diffusion.simple_guidance_fn
+      num_steps: 100
+      guidance: 2.75
+  ema_tracker: null
+  optimizer:
+    class_path: torch.optim.AdamW
+    init_args:
+      lr: 0.0001
+      betas:
+      - 0.9
+      - 0.999
+      eps: 1.0e-08
+      weight_decay: 0.0
+      amsgrad: false
+      maximize: false
+      foreach: null
+      capturable: false
+      differentiable: false
+      fused: null
+  lr_scheduler: null
+  lr_scheduler_interval: step
+  override_lr_on_resume: null
+  override_ema_decay_on_resume: null
+  eval_original_model: false
+  enable_profiling: true
+  profiling_print_freq: 1000
+  profiling_warmup_steps: 100
+  log_grad_norm: false
+  conditioner: null
+data:
+  train_dataset: null
+  eval_dataset:
+    class_path: src.data.ClassLabelRandomNDataset
+    init_args:
+      latent_shape:
+      - 3
+      - 256
+      - 256
+      num_classes: 1000
+      conditions: null
+      seeds: null
+      max_num_instances: 50000
+      num_samples_per_instance: -1
+  pred_dataset:
+    class_path: src.data.ClassLabelRandomNDataset
+    init_args:
+      latent_shape:
+      - 3
+      - 256
+      - 256
+      num_classes: 1000
+      conditions:
+      - 207
+      seeds: null
+      max_num_instances: 4
+      num_samples_per_instance: -1
+  train_batch_size: 32
+  train_num_workers: 4
+  train_prefetch_factor: 8
+  eval_batch_size: 32
+  eval_num_workers: 4
+  pred_batch_size: 4
+  pred_num_workers: 1
+  seed: null
+tags:
+  exp: pixeldit_c2i_bs256
+return_predictions: null
+ckpt_path: /mnt/data/home/sqkang/projects_yj/oppo学习/pixelDiT_explora/weights/imagenet256_pixeldit_xl_epoch320.ckpt

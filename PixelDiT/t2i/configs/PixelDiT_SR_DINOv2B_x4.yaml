@@ -1,0 +1,76 @@
+# Minimal PixelDiT x4 SR baseline: LR -> frozen DINOv2-B -> existing y interface.
+data:
+  type: PairedSRDataset
+  image_size: 512
+  data_dir: []
+  load_text_feat: false
+  transform: default_train
+  extra:
+    # DIV2K/S3Diff supplies exact native x4 pairs: 128 LR -> 512 HR.
+    hr_dir: /mnt/data/home/sqkang/datasets/DIV2K/S3Diff_test/HR
+    lr_dir: /mnt/data/home/sqkang/datasets/DIV2K/S3Diff_test/LR
+    scale: 4
+    random_flip: true
+
+model:
+  model: PixDiTTrainer
+  image_size: 512
+  mixed_precision: bf16
+  fp32_attention: true
+  multi_scale: false
+  load_from: /mnt/data/home/sqkang/projects_yj/oppo学习/pixelDiT_explora/weights/pixeldit_t2i_v1.pth
+  class_dropout_prob: 0.0
+  extra:
+    patch_size: 16
+    num_groups: 24
+    hidden_size: 1536
+    pixel_hidden_size: 16
+    pixel_attn_hidden_size: 1152
+    pixel_num_groups: 16
+    patch_depth: 14
+    pixel_depth: 2
+    num_text_blocks: 4
+    txt_embed_dim: 2304
+    txt_max_length: 300
+    use_text_rope: true
+    text_rope_theta: 10000.0
+    use_lr_pixel_cond: true
+    freeze_pixeldit_backbone: true
+    lr_conditioner:
+      dino_repo: /mnt/data/home/sqkang/projects_yj/oppo学习/OVSR/vosr_repo/preset/ckpts/torch_cache/facebookresearch_dinov2_main
+      dino_weights: /mnt/data/home/sqkang/.cache/torch/hub/checkpoints/dinov2_vitb14_pretrain.pth
+      layer_index: 8
+      input_size: 448
+      output_grid: 16
+      output_dim: 2304
+
+# The existing launcher also reads these fields.  Keep the first run small.
+text_encoder:
+  text_encoder_name: gemma-2-2b-it
+  model_max_length: 300
+scheduler:
+  predict_flow_v: true
+  noise_schedule: linear_flow
+  pred_sigma: false
+  learn_sigma: false
+  flow_shift: 4.0
+  weighting_scheme: logit_normal
+  logit_mean: 0.0
+  logit_std: 1.0
+  train_sampling_steps: 1000
+train:
+  num_workers: 4
+  seed: 1
+  train_batch_size: 1
+  num_epochs: 1
+  gradient_accumulation_steps: 1
+  gradient_clip: 0.1
+  log_interval: 1
+  save_model_steps: 4
+  visualize: false
+  ema_update: false
+  repa_loss_weight: 0.0
+  optimizer:
+    type: AdamW
+    lr: 0.0001
+    weight_decay: 0.0

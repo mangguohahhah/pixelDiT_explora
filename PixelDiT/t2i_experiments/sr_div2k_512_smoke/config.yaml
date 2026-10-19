@@ -1,0 +1,202 @@
+data:
+    data_dir: []
+    caption_proportion:
+        prompt: 1
+    external_caption_suffixes: []
+    external_clipscore_suffixes: []
+    clip_thr_temperature: 1.0
+    clip_thr: 0.0
+    del_img_clip_thr: 0.0
+    sort_dataset: false
+    load_text_feat: false
+    transform: default_train
+    type: PairedSRDataset
+    image_size: 512
+    hq_only: false
+    valid_num: 0
+    data: null
+    extra:
+        hr_dir: /mnt/data/home/sqkang/datasets/DIV2K/S3Diff_test/HR
+        lr_dir: /mnt/data/home/sqkang/datasets/DIV2K/S3Diff_test/LR
+        scale: 4
+        random_flip: true
+        max_samples: 8
+model:
+    model: PixDiTTrainer
+    teacher: null
+    image_size: 512
+    mixed_precision: bf16
+    fp32_attention: true
+    load_from: "/mnt/data/home/sqkang/projects_yj/oppo\u5B66\u4E60/pixelDiT_explora/weights/pixeldit_t2i_v1.pth"
+    discriminator_model: null
+    teacher_model: null
+    teacher_model_weight_dtype: null
+    resume_from:
+        checkpoint:
+            checkpoint: null
+            load_ema: false
+            resume_lr_scheduler: true
+            resume_optimizer: true
+        load_ema: false
+        resume_optimizer: true
+        resume_lr_scheduler: true
+    aspect_ratio_type: ASPECT_RATIO_1024
+    multi_scale: false
+    pe_interpolation: 1.0
+    micro_condition: false
+    attn_type: linear
+    autocast_linear_attn: false
+    ffn_type: glumbconv
+    mlp_acts:
+    - silu
+    - silu
+    - null
+    mlp_ratio: 2.5
+    use_pe: false
+    pos_embed_type: sincos
+    qk_norm: false
+    class_dropout_prob: 0.0
+    linear_head_dim: 32
+    cross_norm: false
+    cross_attn_type: flash
+    logvar: false
+    cfg_scale: 4
+    cfg_embed: false
+    cfg_embed_scale: 1.0
+    guidance_type: classifier-free
+    ladd_multi_scale: true
+    head_block_ids: null
+    extra:
+        patch_size: 16
+        num_groups: 24
+        hidden_size: 1536
+        pixel_hidden_size: 16
+        pixel_attn_hidden_size: 1152
+        pixel_num_groups: 16
+        patch_depth: 14
+        pixel_depth: 2
+        num_text_blocks: 4
+        txt_embed_dim: 2304
+        txt_max_length: 300
+        use_text_rope: true
+        text_rope_theta: 10000.0
+        freeze_pixeldit_backbone: true
+        lr_conditioner:
+            dino_repo: "/mnt/data/home/sqkang/projects_yj/oppo\u5B66\u4E60/OVSR/vosr_repo/preset/ckpts/torch_cache/facebookresearch_dinov2_main"
+            dino_weights: /mnt/data/home/sqkang/.cache/torch/hub/checkpoints/dinov2_vitb14_pretrain.pth
+            layer_index: 8
+            input_size: 448
+            output_grid: 16
+            output_dim: 2304
+vae:
+    vae_type: none
+    vae_pretrained: none
+    weight_dtype: float32
+    scale_factor: 1.0
+    vae_latent_dim: 3
+    vae_downsample_rate: 1
+    sample_posterior: false
+    extra: null
+text_encoder:
+    text_encoder_name: gemma-2-2b-it
+    caption_channels: 2304
+    y_norm: true
+    y_norm_scale_factor: 1.0
+    model_max_length: 300
+    chi_prompt: []
+    extra: null
+scheduler:
+    train_sampling_steps: 1000
+    predict_flow_v: true
+    noise_schedule: linear_flow
+    pred_sigma: false
+    learn_sigma: false
+    vis_sampler: flow_dpm-solver
+    flow_shift: 4.0
+    weighting_scheme: logit_normal
+    weighting_scheme_discriminator: logit_normal_trigflow
+    add_noise_timesteps:
+    - 1.5708
+    logit_mean: 0.0
+    logit_std: 1.0
+    logit_mean_discriminator: 0.0
+    logit_std_discriminator: 1.0
+    sigma_data: 0.5
+    timestep_norm_scale_factor: 1.0
+    extra: null
+train:
+    num_workers: 4
+    seed: 1
+    train_batch_size: 1
+    num_epochs: 1
+    gradient_accumulation_steps: 1
+    grad_checkpointing: false
+    gradient_clip: 0.1
+    gc_step: 1
+    optimizer:
+        type: AdamW
+        lr: 0.0001
+        weight_decay: 0.0
+    optimizer_D:
+        eps: 1.0e-10
+        lr: 0.0001
+        type: AdamW
+        weight_decay: 0.03
+    load_from_optimizer: false
+    load_from_lr_scheduler: false
+    resume_lr_scheduler: true
+    lr_schedule: constant
+    lr_schedule_args:
+        num_warmup_steps: 500
+    override_lr_on_resume: false
+    auto_lr:
+        rule: sqrt
+    eval_batch_size: 16
+    use_fsdp: false
+    use_flash_attn: false
+    eval_sampling_steps: 250
+    lora_rank: 4
+    log_interval: 1
+    mask_type: 'null'
+    mask_loss_coef: 0.0
+    load_mask_index: false
+    snr_loss: false
+    real_prompt_ratio: 1.0
+    early_stop_hours: 10000.0
+    save_image_epochs: 1
+    save_model_epochs: 1
+    save_model_steps: 4
+    visualize: false
+    null_embed_root: output/pretrained_models/
+    valid_prompt_embed_root: output/tmp_embed/
+    validation_prompts:
+    - dog
+    - portrait photo of a girl, photograph, highly detailed face, depth of field
+    - Self-portrait oil painting, a beautiful cyborg with golden hair, 8k
+    - Astronaut in a jungle, cold color palette, muted colors, detailed, 8k
+    - A photo of beautiful mountain with realistic sunset and blue lake, highly detailed,
+        masterpiece
+    local_save_vis: false
+    deterministic_validation: true
+    online_metric: false
+    eval_metric_step: 5000
+    online_metric_dir: metric_helper
+    work_dir: ./experiments
+    skip_step: 0
+    loss_type: huber
+    huber_c: 0.001
+    num_ddim_timesteps: 50
+    ema_decay: 0.95
+    ema_update: false
+    ema_rate: 0.9999
+    repa_loss_weight: 0.0
+    repa_encoder_index: 14
+work_dir: ../t2i_experiments/sr_div2k_512_smoke
+resume_from: null
+load_from: null
+debug: false
+caching: false
+report_to: tensorboard
+tracker_project_name: pixdit-baseline
+name: sr_div2k_512_smoke
+loss_report_name: loss

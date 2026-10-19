@@ -1,0 +1,171 @@
+[
+  {
+    "name": "1k",
+    "width": 1024,
+    "height": 1024,
+    "patch": 16,
+    "alignment": "F16",
+    "image_tokens": 4096,
+    "text_tokens": 300,
+    "batch": 1,
+    "precision": "bf16",
+    "cfg": false,
+    "warmup": 1,
+    "repeats": 3,
+    "torch": "2.5.0+cu124",
+    "cuda": "12.4",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "unit_memory": "GiB",
+    "status": "ok",
+    "stage": "complete",
+    "matches_original": true,
+    "attention_ops": [
+      "aten::scaled_dot_product_attention",
+      "aten::_scaled_dot_product_flash_attention"
+    ],
+    "baseline_alloc_gib": 2.53255558013916,
+    "timings_ms": [
+      [
+        1.7385599613189697,
+        65.26809692382812,
+        0.7911360263824463,
+        67.79779052734375
+      ],
+      [
+        0.8394240140914917,
+        64.16636657714844,
+        0.7930880188941956,
+        65.79888153076172
+      ],
+      [
+        0.7955840229988098,
+        64.24403381347656,
+        0.791808009147644,
+        65.8314208984375
+      ]
+    ],
+    "encode_ms": 0.8394240140914917,
+    "dit_ms": 64.24403381347656,
+    "decode_ms": 0.791808009147644,
+    "total_ms": 65.8314208984375,
+    "peak_alloc_gib": 3.174441337585449,
+    "peak_reserved_gib": 3.4453125
+  },
+  {
+    "name": "4k_typical",
+    "width": 3360,
+    "height": 2208,
+    "patch": 16,
+    "alignment": "F16",
+    "image_tokens": 28980,
+    "text_tokens": 300,
+    "batch": 1,
+    "precision": "bf16",
+    "cfg": false,
+    "warmup": 1,
+    "repeats": 3,
+    "torch": "2.5.0+cu124",
+    "cuda": "12.4",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "unit_memory": "GiB",
+    "status": "ok",
+    "stage": "complete",
+    "baseline_alloc_gib": 2.8469600677490234,
+    "timings_ms": [
+      [
+        2.515968084335327,
+        925.6089477539062,
+        6.250495910644531,
+        934.3754272460938
+      ],
+      [
+        1.3189120292663574,
+        924.1968383789062,
+        6.253568172454834,
+        931.7693481445312
+      ],
+      [
+        1.3403840065002441,
+        924.7754516601562,
+        6.2566399574279785,
+        932.3724365234375
+      ]
+    ],
+    "encode_ms": 1.3403840065002441,
+    "dit_ms": 924.7754516601562,
+    "decode_ms": 6.253568172454834,
+    "total_ms": 932.3724365234375,
+    "peak_alloc_gib": 7.381294250488281,
+    "peak_reserved_gib": 9.16015625
+  },
+  {
+    "name": "4k_max",
+    "width": 3360,
+    "height": 2592,
+    "patch": 16,
+    "alignment": "F16",
+    "image_tokens": 34020,
+    "text_tokens": 300,
+    "batch": 1,
+    "precision": "bf16",
+    "cfg": false,
+    "warmup": 1,
+    "repeats": 3,
+    "torch": "2.5.0+cu124",
+    "cuda": "12.4",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "unit_memory": "GiB",
+    "status": "ok",
+    "stage": "complete",
+    "baseline_alloc_gib": 2.9111318588256836,
+    "timings_ms": [
+      [
+        1.8524160385131836,
+        1194.1611328125,
+        7.345151901245117,
+        1203.3587646484375
+      ],
+      [
+        1.5022079944610596,
+        1193.2037353515625,
+        7.343103885650635,
+        1202.049072265625
+      ],
+      [
+        1.714176058769226,
+        1193.376708984375,
+        7.344128131866455,
+        1202.43505859375
+      ]
+    ],
+    "encode_ms": 1.714176058769226,
+    "dit_ms": 1193.376708984375,
+    "decode_ms": 7.344128131866455,
+    "total_ms": 1202.43505859375,
+    "peak_alloc_gib": 8.236023902893066,
+    "peak_reserved_gib": 10.306640625
+  },
+  {
+    "name": "8k",
+    "width": 7680,
+    "height": 4992,
+    "patch": 16,
+    "alignment": "F16",
+    "image_tokens": 149760,
+    "text_tokens": 300,
+    "batch": 1,
+    "precision": "bf16",
+    "cfg": false,
+    "warmup": 1,
+    "repeats": 3,
+    "torch": "2.5.0+cu124",
+    "cuda": "12.4",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "unit_memory": "GiB",
+    "status": "oom",
+    "stage": "dit",
+    "error": "CUDA out of memory. Tried to allocate 2.29 GiB. GPU 0 has a total capacity of 23.52 GiB of which 368.12 MiB is free. Including non-PyTorch memory, this process has 23.13 GiB memory in use. Of the allocated memory 19.77 GiB is allocated by PyTorch, and 2.91 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+    "peak_alloc_gib": 19.767374992370605,
+    "peak_reserved_gib": 22.681640625
+  }
+]

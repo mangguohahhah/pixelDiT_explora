@@ -1,0 +1,21 @@
+[[34m2026-08-27 17:13:08[0m] Experiment directory created at exp_vosr/enc_ablation/dinov2b/ldit_fm_bs004_sd2f8c4_size512_ps2_d1024_b28_h16_cfgs-0.5-r0.1-wc0.05-0.25_edr3_tduni_typetxt
+[[34m2026-08-27 17:13:48[0m] ===========> Total parameters: 485623616 (0.486 B)
+[[34m2026-08-27 17:13:48[0m] Seed set to 42 (Base 42 + Step 0)
+[[34m2026-08-27 17:13:48[0m] ===========> Batch Size Debug Info (DDP):
+[[34m2026-08-27 17:13:48[0m]   args.train_batch_size (global) = 2
+[[34m2026-08-27 17:13:48[0m]   accelerator.num_processes (total GPUs) = 1
+[[34m2026-08-27 17:13:48[0m]   local_batch_size (per GPU) = 2
+[[34m2026-08-27 17:13:48[0m]   gradient_accumulation_steps = 2
+[[34m2026-08-27 17:13:48[0m]   Effective batch size per GPU = 4
+[[34m2026-08-27 17:13:48[0m]   Total effective batch size = 4
+[[34m2026-08-27 17:13:48[0m]   Expected total batch size = 4
+[[34m2026-08-27 17:13:56[0m] ***** Running training *****
+[[34m2026-08-27 17:13:56[0m]   Instantaneous batch size per device = 2
+[[34m2026-08-27 17:13:56[0m]   Total train batch size (w. parallel, distributed & accumulation) = 2
+[[34m2026-08-27 17:13:56[0m]   Gradient Accumulation steps = 2
+[[34m2026-08-27 17:13:56[0m]   Total optimization steps = 20000
+[[34m2026-08-27 17:13:56[0m]   Number of processes (GPUs) = 1
+[[34m2026-08-27 17:13:56[0m]   Number of nodes = 1 (assuming 8 GPUs per node)
+[[34m2026-08-27 17:13:56[0m]   Distributed type = NO
+[[34m2026-08-27 17:13:56[0m]  EXP = ldit_fm_bs004_sd2f8c4_size512_ps2_d1024_b28_h16_cfgs-0.5-r0.1-wc0.05-0.25_edr3_tduni_typetxt
+[[34m2026-08-27 17:14:03[0m] [Eval @ step 1] 无测试图，跳过评测
