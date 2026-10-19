@@ -1,9 +1,0 @@
-START 1k 1024 1024
-DONE 1k ok
-START 4k_typical 3360 2208
-DONE 4k_typical ok
-START 4k_max 3360 2592
-DONE 4k_max ok
-START 8k 7680 4992
-DONE 8k oom
-COMPLETE
